@@ -1,0 +1,26 @@
+{% extends 'index.html' %}
+
+{% block text %}
+<div class="container page-name">
+    <h1 class="text-center">Войти</h1>
+    <p class="lead text-center">Личный кабинет</p>
+</div>
+{% endblock %}
+
+{% block pagination %}
+<h1>{{title}}</h1>
+
+<form method="post">
+    {% csrf_token %}
+
+<div class="form-error">{{ form.non_field_errors }}</div>
+
+{% for f in form %}
+<p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
+<div class="form-error">{{ f.errors }}</div>
+{% endfor %}
+
+    <button type="submit">Войти</button>
+</form>
+
+{% endblock %}

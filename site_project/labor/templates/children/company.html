@@ -1,0 +1,59 @@
+{% extends 'index.html' %}
+
+{% block text %}
+<div class="container page-name">
+    <h1 class="text-center">Просмотр компаний</h1>
+    <p class="lead text-center">Используйте следующее поле поиска, чтобы найти компании, которые вам больше подходят</p>
+</div>
+{% endblock %}
+
+{% block pagination %}
+<form action="" method="get">
+    <input placeholder="Поиск по названию" name="search" type="search" value="{{search}}">
+</form>
+<ul class="list-articles">
+    {% for p in posts %}
+    <!--Comment-->
+    <li>
+        <div class="hgroup">
+            <h3>Название: {{p.title}}</h3>
+            <h4>Адрес: {{p.address}}</h4>
+            <h4>Почта: {{p.mail}}</h4>
+            {% autoescape on %}
+                <h4>Вид деятельности: {{p.type_of_activity.title}}</h4>
+            {% endautoescape %}
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+
+{% if page_obj.has_other_pages %}
+<nav class="list-pages">
+    <ul>
+        {% if page_obj.has_previous %}
+        <li class="page-num">
+            <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+        </li>
+        {% endif %}
+
+        {% for p in paginator.page_range %}
+        {% if page_obj.number == p %}
+        <li class="page-num page-num-selected">{{ p }}</li>
+        {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+        <li class="page-num">
+            <a href="?page={{ p }}">{{ p }}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <li class="page-num">
+            <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+        </li>
+        {% endif %}
+
+    </ul>
+</nav>
+{% endif %}
+
+{% endblock %}
